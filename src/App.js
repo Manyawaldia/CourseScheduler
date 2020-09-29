@@ -47,8 +47,6 @@ class App extends React.Component {
           crossOrigin="anonymous"
         />
 
-
-
         <Tabs defaultActiveKey="search" style={{position: 'fixed', zIndex: 1, width: '100%', backgroundColor: 'white'}}>
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
