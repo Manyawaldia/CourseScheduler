@@ -36,7 +36,9 @@ class App extends React.Component {
   setCourses(courses) {
     this.setState({filteredCourses: courses})
   }
-
+  cartCourses(courses) {
+    this.setState({cartCourses: courses})
+  }
   render() {
     return (
       <>
@@ -51,13 +53,13 @@ class App extends React.Component {
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.state.filteredCourses} allData={this.state.allCourses} cartMode={false}/>
+              <CourseArea data={this.state.filteredCourses} allData={this.state.allCourses} cartMode={true}/>
           </div>
           </Tab>
 
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '5vw'}}>
-              
+              <CourseArea data={this.state.cartCourses} allData={this.state.allCourses} cartMode={true}/>
             </div>
           </Tab>
         </Tabs> 

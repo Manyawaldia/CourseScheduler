@@ -15,6 +15,9 @@ class CourseArea extends React.Component {
     return courses;
   }
 
+  cartCourses(){
+    
+  }
   render() {
     return (
       <div style={{margin: '5px'}}>

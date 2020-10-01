@@ -4,8 +4,10 @@ import Section from './Section';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
+rrimport Table from 'react-bootstrap/Table';
+import ListGroup from 'react-bootstrap/ListGroup';
 import './Course.css';
+
 class Course extends React.Component {
   
   getReqs(requisite){
@@ -36,43 +38,72 @@ class Course extends React.Component {
       }
       i++;
     }
-  return req;
+    return req;
+  }
+  
+  getTimes(section){
+    let days = Object.keys(section.time);
+
+    console.log(days);
+
+    let daysList = days.map((day) => (
+      <ListGroup.Item>{day}: {section.time[day]}</ListGroup.Item>
+    ));
+    return daysList;
+  }
+
+  getSub(section){
+    let subs = section.subsections;
+    
+    if(subs === null){
+      return {};
+    }
+    
+    let subList = subs.map((sub) => ( 
+      <ListGroup>
+        <ListGroup.Item>Section: {sub.number} <Button variant="light">Add Discussion</Button> </ListGroup.Item>
+        <ListGroup.Item>Location: {sub.location}</ListGroup.Item>
+        <ListGroup.Item>Time: {this.getTimes(sub)}</ListGroup.Item>
+        <br></br>
+      </ListGroup>
+  
+    ));
+    
+    
+    return subList; 
   }
 
   //TODO
-  //get the sec - lecture
-  getSec(section){
-    let sec = [];
+  // get the sec - lecture
+  getSec(){
+    let sec = this.props.data.sections;
     let i = 0;
     let j = 0;
     let none = "None";
-    if( section.length===0){
-      return none;
-    }
-    while(i < section.length){
-      if(i>=1){
-        //call subsection method 
-      }
-      j = 0;
-      while(j < section[i].length){
-        if(j === 0 ){
-          sec = sec.concat("(");
-        }
-        if(j>=1){
-          sec = sec.concat(" OR ");
-        }
-        sec = sec.concat(section[i][j]);
-        if( (j+1) === section[i].length){
-          sec = sec.concat(")");
-        }
-        j++;
-      }
-      i++;
-    }
-  return sec;
+    
+    let sectionList = sec.map((section) => ( 
+      <ListGroup>
+        <ListGroup.Item>Section: {section.number} <Button variant="light">Add Section</Button> </ListGroup.Item>
+        <ListGroup.Item>Location: {section.location}</ListGroup.Item>
+        <ListGroup.Item>Instructor: {section.instructor}</ListGroup.Item>
+        <ListGroup.Item>Meeting Times
+          <ListGroup>
+            {this.getTimes(section)}
+          </ListGroup>
+        </ListGroup.Item>
+        <ListGroup.Item>Subsections: 
+          <ListGroup>
+            {this.getSub(section)}
+          </ListGroup>
+        </ListGroup.Item>
+        <br></br>
+        
+      </ListGroup>
+  
+    ));
+    // console.log(sec);
+    return sectionList;
   }
-
-
 
   render() {
     let number = this.props.data.number;
@@ -84,8 +115,8 @@ class Course extends React.Component {
     let requisites = [];
     requisites = this.getReqs(this.props.data.requisites);
     let keywords = this.props.data.keywords.join(", ");
-    let sectionNum = this.getSec(this.props.data.sections);
-    // CSS
+
+  
     const mystyle = ({
 
       titleStyle : {
@@ -138,10 +169,13 @@ class Course extends React.Component {
             <Accordion.Collapse eventKey="1">
               <Card.Body>
                 <div style={mystyle.subject}>Subject: {subject}</div>
+                <div style={mystyle.text}>Credits: {credits}</div>
                 <div style={mystyle.text}>Description: {description}</div>
                 <div style={mystyle.requisites}>Requisites: {requisites}</div>
                 <div style={mystyle.text}>Keywords: {keywords}</div>
-                <div style={mystyle.sec}>Sections: </div>
+                <br></br>
+                <div style={mystyle.sec}>{this.getSec()}</div>
+               
               </Card.Body>
             </Accordion.Collapse>
           </Card>
