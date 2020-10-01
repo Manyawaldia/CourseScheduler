@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import Card from 'react-bootstrap/Card'
 import Sidebar from './Sidebar';
 import CourseArea from './CourseArea';
 
@@ -36,9 +37,7 @@ class App extends React.Component {
   setCourses(courses) {
     this.setState({filteredCourses: courses})
   }
-  cartCourses(courses) {
-    this.setState({cartCourses: courses})
-  }
+
   render() {
     return (
       <>
@@ -49,17 +48,19 @@ class App extends React.Component {
           crossOrigin="anonymous"
         />
 
+
+
         <Tabs defaultActiveKey="search" style={{position: 'fixed', zIndex: 1, width: '100%', backgroundColor: 'white'}}>
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.state.filteredCourses} allData={this.state.allCourses} cartMode={true}/>
+              <CourseArea data={this.state.filteredCourses} allData={this.state.allCourses} cartMode={false}/>
           </div>
           </Tab>
 
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '5vw'}}>
-              <CourseArea data={this.state.cartCourses} allData={this.state.allCourses} cartMode={true}/>
+              <Card style={{ width: '100%', backgroundColor: 'white', padding: '10rem'}}> my cart </Card>
             </div>
           </Tab>
         </Tabs> 

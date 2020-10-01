@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
-import Section from './Section';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-rrimport Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './Course.css';
 
