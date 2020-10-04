@@ -5,6 +5,8 @@ import Tab from 'react-bootstrap/Tab'
 import Card from 'react-bootstrap/Card'
 import Sidebar from './Sidebar';
 import CourseArea from './CourseArea';
+import Course from './Course';
+import Cart from './Cart';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,8 +14,9 @@ class App extends React.Component {
     this.state = {
       allCourses: {},
       filteredCourses: {},
-      subjects: []
+      subjects: [],
     };
+    this.myCallback = this.myCallback.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +41,10 @@ class App extends React.Component {
     this.setState({filteredCourses: courses})
   }
 
+  myCallback = (dataFromChild) =>{
+    this.setState({filteredCourses:dataFromChild});
+  }
+
   render() {
     return (
       <>
@@ -47,8 +54,6 @@ class App extends React.Component {
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossOrigin="anonymous"
         />
-
-
 
         <Tabs defaultActiveKey="search" style={{position: 'fixed', zIndex: 1, width: '100%', backgroundColor: 'white'}}>
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
@@ -60,7 +65,10 @@ class App extends React.Component {
 
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '5vw'}}>
-              <Card style={{ width: '100%', backgroundColor: 'white', padding: '10rem'}}> my cart </Card>
+              <Card style={{ width: '100%', backgroundColor: 'white', padding: '30px'}}> 
+                {/* <Course callBackFromParent={this.myCallback}/> */}
+                <CourseArea data={this.state.filteredCourses} allData={this.state.allCourses} cartMode={false}/>
+              </Card>
             </div>
           </Tab>
         </Tabs> 

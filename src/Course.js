@@ -5,9 +5,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './Course.css';
+import { PropTypes } from 'react';
 
 class Course extends React.Component {
-  
+ 
+  cart = [];
+
   getReqs(requisite){
     let req = [];
     let i = 0;
@@ -42,8 +45,6 @@ class Course extends React.Component {
   getTimes(section){
     let days = Object.keys(section.time);
 
-    console.log(days);
-
     let daysList = days.map((day) => (
       <ListGroup.Item>{day}: {section.time[day]}</ListGroup.Item>
     ));
@@ -56,10 +57,9 @@ class Course extends React.Component {
     if(subs === null){
       return {};
     }
-    
     let subList = subs.map((sub) => ( 
       <ListGroup>
-        <ListGroup.Item>Section: {sub.number} <Button variant="light">Add Discussion</Button> </ListGroup.Item>
+        <ListGroup.Item>Section: {sub.number} <Button onClick={()=>this.addSubSection(section)} variant="secondary" style={{float:"right"}}>Add Subsection</Button> </ListGroup.Item>
         <ListGroup.Item>Location: {sub.location}</ListGroup.Item>
         <ListGroup.Item>Time: {this.getTimes(sub)}</ListGroup.Item>
         <br></br>
@@ -67,21 +67,56 @@ class Course extends React.Component {
   
     ));
     
-    
     return subList; 
   }
 
-  //TODO
+  removeSubSection(section){
+
+  }
+
+  //remove the specific section
+  removeSection(section){
+    const index = this.cart.indexOf(section);
+    if (index > -1) {
+      this.cart.splice(index, 1);
+    }
+    console.log(this.cart); 
+    return this.cart;
+  }
+  addAllSections(sec){
+    this.cart.push(sec);
+    console.log(this.cart);
+    return this.cart;
+  }
+  
+  removeAllSubSections(sec){
+    
+  }
+
+  addAllSubSections(sec){
+    this.cart.push(sec);
+    console.log(this.cart);
+    return this.cart;
+  }
+  addSubSection(section){
+    this.cart.push(section);
+    console.log(this.cart);
+    return this.cart;
+  }
+  addSection(section){
+    this.cart.push(section);
+    console.log(this.cart);
+    return this.cart;
+  }
+
   // get the sec - lecture
   getSec(){
     let sec = this.props.data.sections;
-    let i = 0;
-    let j = 0;
-    let none = "None";
-    
     let sectionList = sec.map((section) => ( 
       <ListGroup>
-        <ListGroup.Item>Section: {section.number} <Button variant="light">Add Section</Button> </ListGroup.Item>
+        <ListGroup.Item>Section: {section.number} 
+          <Button variant="primary" style={{float:"right"}} onClick={()=>this.addSection(section)}>Add Section</Button>
+        </ListGroup.Item>
         <ListGroup.Item>Location: {section.location}</ListGroup.Item>
         <ListGroup.Item>Instructor: {section.instructor}</ListGroup.Item>
         <ListGroup.Item>Meeting Times
@@ -89,7 +124,8 @@ class Course extends React.Component {
             {this.getTimes(section)}
           </ListGroup>
         </ListGroup.Item>
-        <ListGroup.Item>Subsections: 
+        <div><Button variant="primary" style={{float:"right"}} onClick={()=>this.addAllSubSections(section)}>Add All Subsections</Button></div>
+        <ListGroup.Item>Subsections:  
           <ListGroup>
             {this.getSub(section)}
           </ListGroup>
@@ -114,7 +150,6 @@ class Course extends React.Component {
     requisites = this.getReqs(this.props.data.requisites);
     let keywords = this.props.data.keywords.join(", ");
 
-  
     const mystyle = ({
 
       titleStyle : {
@@ -171,7 +206,9 @@ class Course extends React.Component {
                 <div style={mystyle.text}>Description: {description}</div>
                 <div style={mystyle.requisites}>Requisites: {requisites}</div>
                 <div style={mystyle.text}>Keywords: {keywords}</div>
-                <br></br>
+                <div style={{padding:"10px", width:"70%", margin:"auto"}}>
+                  <Button variant="secondary" onClick={()=>this.addAllSections(this.props.data.sections)} style={{padding:"10px"}}block>Add All Section</Button>
+                </div>
                 <div style={mystyle.sec}>{this.getSec()}</div>
                
               </Card.Body>
