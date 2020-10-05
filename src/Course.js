@@ -50,7 +50,9 @@ class Course extends React.Component {
     ));
     return daysList;
   }
-
+  addSubSection(sec){
+    this.props.addSubSection(sec);
+   }
   getSub(section){
     let subs = section.subsections;
     
@@ -59,7 +61,8 @@ class Course extends React.Component {
     }
     let subList = subs.map((sub) => ( 
       <ListGroup>
-        <ListGroup.Item>Section: {sub.number} <Button onClick={()=>this.addSubSection(section)} variant="secondary" style={{float:"right"}}>Add Subsection</Button> </ListGroup.Item>
+        <ListGroup.Item>Section: {sub.number} 
+          <Button onClick={()=>this.addSubSection(section)} variant="secondary" style={{float:"right"}}>Add Subsection</Button> </ListGroup.Item>
         <ListGroup.Item>Location: {sub.location}</ListGroup.Item>
         <ListGroup.Item>Time: {this.getTimes(sub)}</ListGroup.Item>
         <br></br>
@@ -83,10 +86,8 @@ class Course extends React.Component {
     console.log(this.cart); 
     return this.cart;
   }
-  addAllSections(sec){
-    this.cart.push(sec);
-    console.log(this.cart);
-    return this.cart;
+  addAllSections(number){
+    this.props.addAllSections(number);
   }
   
   removeAllSubSections(sec){
@@ -94,20 +95,18 @@ class Course extends React.Component {
   }
 
   addAllSubSections(sec){
-    this.cart.push(sec);
-    console.log(this.cart);
-    return this.cart;
+   this.props.addAllSubSections(sec);
   }
-  addSubSection(section){
-    this.cart.push(section);
-    console.log(this.cart);
-    return this.cart;
-  }
+  // addSubSection(section){
+  //   this.cart.push(section);
+  //   console.log(this.cart);
+  //   return this.cart;
+  // }
   addSection(section){
-    this.cart.push(section);
-    console.log(this.cart);
-    return this.cart;
+   this.props.addSection(section);
+    
   }
+  //  addSection = this.props.addSection;
 
   // get the sec - lecture
   getSec(){
@@ -115,7 +114,7 @@ class Course extends React.Component {
     let sectionList = sec.map((section) => ( 
       <ListGroup>
         <ListGroup.Item>Section: {section.number} 
-          <Button variant="primary" style={{float:"right"}} onClick={()=>this.addSection(section)}>Add Section</Button>
+          <Button variant="primary" style={{float:"right"}} onClick={()=>{this.addSection(section)}}>Add Section</Button>
         </ListGroup.Item>
         <ListGroup.Item>Location: {section.location}</ListGroup.Item>
         <ListGroup.Item>Instructor: {section.instructor}</ListGroup.Item>
@@ -207,7 +206,7 @@ class Course extends React.Component {
                 <div style={mystyle.requisites}>Requisites: {requisites}</div>
                 <div style={mystyle.text}>Keywords: {keywords}</div>
                 <div style={{padding:"10px", width:"70%", margin:"auto"}}>
-                  <Button variant="secondary" onClick={()=>this.addAllSections(this.props.data.sections)} style={{padding:"10px"}}block>Add All Section</Button>
+                  <Button variant="secondary" onClick={()=>this.addAllSections(this.props.data.sections)} style={{padding:"10px"}}block>Add Class</Button>
                 </div>
                 <div style={mystyle.sec}>{this.getSec()}</div>
                
